@@ -1,0 +1,18 @@
+{
+  "name": "oss-site-deployer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "oss-deploy": "bin/oss-deploy"
+  },
+  "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
+  "license": "MIT",
+  "dependencies": {
+    "ali-oss": "^6.0.1",
+    "glob": "^7.1.3"
+  }
+}
