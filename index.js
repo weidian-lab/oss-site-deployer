@@ -36,7 +36,10 @@ class Deployer extends EventEmitter {
     await fileList.reduce(async (promise, fileName) => {
       await promise;
       this.pending.set(fileName, 'pending');
-      const ossTarget = path.join(prefix, fileName);
+      let ossTarget = path.join(prefix, fileName);
+      if (this.config.rename) {
+        ossTarget = this.config.rename(ossTarget);
+      }
       const filePath = path.join(this.uploadDir, fileName);
       const stream = fs.createReadStream(filePath);
       const result = await this.ossClient.putStream(ossTarget, stream);
@@ -54,12 +57,8 @@ class Deployer extends EventEmitter {
   async deploySite(uploadDir, prefix = '') {
     this.uploadDir = uploadDir || this.uploadDir;
     const fileList = await globAsync('**/*', { cwd: uploadDir, nodir: true });
-    const sortedFileList = fileList
-      .sort(fileName => (!fileName.endsWith('.html') ? -1 : 1));
-    return this.uploadFileListByOss(
-      sortedFileList,
-      prefix,
-    );
+    const sortedFileList = fileList.sort((fileName) => (!fileName.endsWith('.html') ? -1 : 1));
+    return this.uploadFileListByOss(sortedFileList, prefix);
   }
 }
 
