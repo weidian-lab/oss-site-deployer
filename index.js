@@ -49,7 +49,7 @@ class Deployer extends EventEmitter {
     const ret = { time: Date.now() - startedAt, fileCount: fileList.length };
     this.state = 'done';
     this.fileList = [];
-    this.pending = Object.create(null);
+    this.pending.clear();
     this.emit('uploadedAll', ret);
     return { time: Date.now() - startedAt, fileCount: fileList.length };
   }
