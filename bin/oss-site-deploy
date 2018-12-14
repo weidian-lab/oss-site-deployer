@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const path = require('path')
+const Deployer = require('..')
+
+const {
+  REGION,
+  ACCESSKEYID,
+  ACCESSKEYSECRET,
+  BUCKET
+} = process.env
+
+program
+  .version(require('../package').version)
+  .option('-r --region [value]', 'oss region', REGION || 'oss-cn-hangzhou')
+  .option('-k --key [value]', 'oss accessKeyId default env ACCESSKEYID', ACCESSKEYID || '')
+  .option('-s --secret [value]', 'oss accessKeySecret default env ACCESSKEYSECRET', ACCESSKEYSECRET || '')
+  .option('-d --dir [value]', 'upload site dir', 'dist')
+  .option('-b --bucket [value]', 'site oss prefix default env BUCKET', BUCKET || '')
+  .option('-p --prefix [value]', 'site oss prefix', '')
+  .option('-i --ignore [value]', 'ignore file')
+
+program
+  .parse(process.argv)
+
+async function start () {
+  const { region, key, secret, dir, bucket, prefix, ignore } = program
+  const deployer = new Deployer({
+    region,
+    accessKeyId: key,
+    accessKeySecret: secret,
+    bucket: bucket,
+  })
+  deployer.on('uploadedItem', ({ fileName }) => {
+    console.info('uploaded ', fileName);
+  })
+  console.info(`deploying ${dir} to ${bucket} ${prefix}`)
+  deployer
+    .deploySite(path.resolve(dir), prefix, { ignore })
+    .then(() => {
+      console.info('uploadedAll');
+    })
+}
+
+start()
