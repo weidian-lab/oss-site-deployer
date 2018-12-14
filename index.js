@@ -14,6 +14,7 @@ class Deployer extends EventEmitter {
     assert(config.region, 'region is required');
     assert(config.accessKeyId, 'accessKeyId is required');
     assert(config.accessKeySecret, 'accessKeySecret is required');
+    assert(config.bucket, 'bucket is required');
     this.state = 'wait';
     this.config = config;
     this.pending = new Map();
@@ -22,10 +23,6 @@ class Deployer extends EventEmitter {
   get ossClient() {
     this.$client = this.$client || new OSS(this.config);
     return this.$client;
-  }
-
-  useBucket(name) {
-    this.ossClient.useBucket(name);
   }
 
   async uploadFileListByOss(fileList, prefix = '') {
