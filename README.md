@@ -23,4 +23,4 @@ deployer
 
 # todo
 
-- [] add cli
+- [x] add cli
