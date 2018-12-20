@@ -1,4 +1,7 @@
 # usage
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/weidian-lab/oss-site-deployer.svg)](https://greenkeeper.io/)
+
 ```
 const path = require('path')
 const Deployer = require('oss-site-deployer')
