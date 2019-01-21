@@ -51,10 +51,10 @@ class Deployer extends EventEmitter {
     return { time: Date.now() - startedAt, fileCount: fileList.length };
   }
 
-  async deploySite(uploadDir, prefix = '', { ignore } = {}) {
+  async deploySite(uploadDir, prefix = '', { ignore, sort } = {}) {
     this.uploadDir = uploadDir || this.uploadDir;
     const fileList = await globAsync('**/*', { cwd: uploadDir, nodir: true, ignore });
-    const sortedFileList = fileList.sort((fileName) => (!fileName.endsWith('.html') ? -1 : 1));
+    const sortedFileList = fileList.sort(sort || (fileName) => (!fileName.endsWith('.html') ? -1 : 1));
     return this.uploadFileListByOss(sortedFileList, prefix);
   }
 }
