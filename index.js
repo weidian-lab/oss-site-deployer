@@ -8,6 +8,8 @@ const assert = require('assert');
 
 const globAsync = promisify(glob);
 
+const defaultSort = fileName => (!fileName.endsWith('.html') ? -1 : 1);
+
 class Deployer extends EventEmitter {
   constructor(config) {
     super();
@@ -54,7 +56,9 @@ class Deployer extends EventEmitter {
   async deploySite(uploadDir, prefix = '', { ignore, sort } = {}) {
     this.uploadDir = uploadDir || this.uploadDir;
     const fileList = await globAsync('**/*', { cwd: uploadDir, nodir: true, ignore });
-    const sortedFileList = fileList.sort(sort || (fileName) => (!fileName.endsWith('.html') ? -1 : 1));
+    const sortedFileList = fileList.sort(
+      sort || defaultSort
+    );
     return this.uploadFileListByOss(sortedFileList, prefix);
   }
 }
