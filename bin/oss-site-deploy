@@ -8,7 +8,11 @@ const {
   REGION,
   ACCESSKEY,
   ACCESSKEY_SECRET,
-  BUCKET
+  BUCKET,
+  PREFIX,
+  IGNORE,
+  LAST,
+  DIR
 } = process.env
 
 program
@@ -16,11 +20,11 @@ program
   .option('-r --region [value]', 'oss region', REGION || 'oss-cn-hangzhou')
   .option('-k --key [value]', 'oss accessKeyId default env ACCESSKEY', ACCESSKEY || '')
   .option('-s --secret [value]', 'oss accessKeySecret default env ACCESSKEY_SECRET', ACCESSKEY_SECRET || '')
-  .option('-d --dir [value]', 'upload site dir', 'dist')
+  .option('-d --dir [value]', 'upload site dir default env DIR', DIR || 'dist')
   .option('-b --bucket [value]', 'site oss prefix default env BUCKET', BUCKET || '')
-  .option('-p --prefix [value]', 'site oss prefix', '')
-  .option('-i --ignore [value]', 'ignore file')
-  .option('-l --last [value]', 'last upload extname', 'html')
+  .option('-p --prefix [value]', 'site oss prefix default env PREFIX', PREFIX || '')
+  .option('-i --ignore [value]', 'ignore file default env IGNORE', IGNORE)
+  .option('-l --last [value]', 'last upload extname default env LAST', LAST || 'html')
 
 program
   .parse(process.argv)
