@@ -6,6 +6,8 @@ const Deployer = require('..')
 
 const {
   REGION,
+  ALIYUN_KEY,
+  ALIYUN_SECRET,
   ACCESSKEY,
   ACCESSKEY_SECRET,
   BUCKET,
@@ -18,8 +20,8 @@ const {
 program
   .version(require('../package').version)
   .option('-r --region [value]', 'oss region', REGION || 'oss-cn-hangzhou')
-  .option('-k --key [value]', 'oss accessKeyId default env ACCESSKEY', ACCESSKEY || '')
-  .option('-s --secret [value]', 'oss accessKeySecret default env ACCESSKEY_SECRET', ACCESSKEY_SECRET || '')
+  .option('-k --key [value]', 'oss accessKeyId default env ACCESSKEY', ACCESSKEY || ALIYUN_KEY || '')
+  .option('-s --secret [value]', 'oss accessKeySecret default env ACCESSKEY_SECRET', ACCESSKEY_SECRET || ALIYUN_SECRET || '')
   .option('-d --dir [value]', 'upload site dir default env DIR', DIR || 'dist')
   .option('-b --bucket [value]', 'site oss prefix default env BUCKET', BUCKET || '')
   .option('-p --prefix [value]', 'site oss prefix default env PREFIX', PREFIX || '')
