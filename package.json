@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "oss-site-deploy": "bin/oss-site-deploy"
+    "oss-site-deploy": "bin/oss-site-deploy",
+    "oss-site-deployer": "bin/oss-site-deploy"
   },
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
   "license": "MIT",
