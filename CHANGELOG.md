@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/weidian-lab/oss-site-deployer/compare/v2.0.2...v2.1.0) (2020-12-30)
+
+
+### Bug Fixes
+
+* cli name ([901ae4d](https://github.com/weidian-lab/oss-site-deployer/commit/901ae4dc8467f11ed20e53ea4ad53f90b04c4e2d))
+
 ### [2.0.2](https://github.com/weidian-lab/oss-site-deployer/compare/v2.0.1...v2.0.2) (2020-04-14)
 
 ### [2.0.1](https://github.com/weidian-lab/oss-site-deployer/compare/v2.0.0...v2.0.1) (2019-08-09)
