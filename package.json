@@ -14,15 +14,15 @@
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
   "license": "MIT",
   "dependencies": {
-    "ali-oss": "^6.1.1",
-    "commander": "^6.2.1",
-    "glob": "^7.1.4"
+    "ali-oss": "^6.17.1",
+    "commander": "^9.0.0",
+    "glob": "^7.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "husky": "^4.3.6",
-    "standard-version": "^9.1.0"
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
+    "husky": "^7.0.4",
+    "standard-version": "^9.3.2"
   },
   "husky": {
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"

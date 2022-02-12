@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-const program = require('commander')
 const path = require('path')
+const commander = require('commander')
 const Deployer = require('..')
+
+const program = new commander.Command();
 
 const {
   REGION,
@@ -25,31 +27,55 @@ program
   .option('-d --dir [value]', 'upload site dir default env DIR', DIR || 'dist')
   .option('-b --bucket [value]', 'site oss prefix default env BUCKET', BUCKET || '')
   .option('-p --prefix [value]', 'site oss prefix default env PREFIX', PREFIX || '')
-  .option('-i --ignore [value]', 'ignore file default env IGNORE', IGNORE)
-  .option('-l --last [value]', 'last upload extname default env LAST', LAST || 'html')
 
 program
-  .parse(process.argv)
-
-async function start () {
-  const { region, key, secret, dir, bucket, prefix, ignore, last } = program
-  const deployer = new Deployer({
-    region,
-    accessKeyId: key,
-    accessKeySecret: secret,
-    bucket: bucket,
+  .option('-i --ignore [value]', 'ignore file default env IGNORE', IGNORE)
+  .option('-l --last [value]', 'last upload extname default env LAST', LAST || 'html')
+  .action(async () => {
+    const {
+      region, key, secret, dir, bucket, prefix, ignore, last
+    } = program.opts()
+    const deployer = new Deployer({
+      region,
+      accessKeyId: key,
+      accessKeySecret: secret,
+      bucket: bucket,
+    })
+    deployer.on('uploadedItem', ({ fileName }) => {
+      console.info(new Date(), 'uploaded ', fileName);
+    })
+    console.info(`deploying ${dir} to ${bucket} ${prefix}`)
+    deployer
+      .deploySite(path.resolve(dir), prefix, { ignore, sort: (fileName) => (!fileName.endsWith('.' + last) ? -1 : 1) })
+      .then(() => {
+        console.info('uploadedAll');
+      }).catch((err) => {
+        console.error(err)
+        process.exit(-1)
+      })
   })
-  deployer.on('uploadedItem', ({ fileName }) => {
-    console.info('uploaded ', fileName);
-  })
-  console.info(`deploying ${dir} to ${bucket} ${prefix}`)
-  deployer
-    .deploySite(path.resolve(dir), prefix, { ignore, sort: (fileName) => (!fileName.endsWith('.' + last) ? -1 : 1) })
-}
 
-start().then(() => {
-  console.info('uploadedAll');
-}, (err) => {
-  console.error(err)
-  process.exit(-1)
-})
+program
+  .command('link')
+  .description('link oss file')
+  .argument('<src>')
+  .argument('<dist>')
+  .action(async (src, dist) => {
+    const {
+      region, key, secret, bucket, prefix
+    } = program.opts()
+    new Deployer({
+      region,
+      accessKeyId: key,
+      accessKeySecret: secret,
+      bucket,
+    }).link(src, dist, prefix).then((ret) => {
+      console.log('linked', bucket, path.join(prefix, src),path.join(prefix, dist), ret.res.statusMessage)
+    }).catch((err) => {
+      console.error(err)
+      process.exit(-1)
+    })
+  })
+
+
+program.parse();

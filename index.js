@@ -61,6 +61,13 @@ class Deployer extends EventEmitter {
     );
     return this.uploadFileListByOss(sortedFileList, prefix);
   }
+
+  async link (src, dist, prefix = '') {
+    return this.ossClient.putSymlink(
+      path.join(prefix, dist),
+      path.join(prefix, src),
+    );
+  }
 }
 
 module.exports = Deployer;
